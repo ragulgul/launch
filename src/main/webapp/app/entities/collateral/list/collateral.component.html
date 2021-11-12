@@ -1,0 +1,115 @@
+<div>
+  <h2 id="page-heading" data-cy="CollateralHeading">
+    <span jhiTranslate="launchApp.collateral.home.title">Collaterals</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="launchApp.collateral.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-collateral"
+        [routerLink]="['/collateral/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="launchApp.collateral.home.createLabel"> Create a new Collateral </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="collaterals?.length === 0">
+    <span jhiTranslate="launchApp.collateral.home.notFound">No collaterals found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="collaterals && collaterals.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.collateral.name">Name</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.collateral.description">Description</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.collateral.icon">Icon</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.collateral.content">Content</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.collateral.version">Version</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.collateral.workflow">Workflow</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.collateral.launch">Launch</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let collateral of collaterals; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/collateral', collateral.id, 'view']">{{ collateral.id }}</a>
+          </td>
+          <td>{{ collateral.name }}</td>
+          <td>{{ collateral.description }}</td>
+          <td>
+            <a *ngIf="collateral.icon" (click)="openFile(collateral.icon, collateral.iconContentType)">
+              <img
+                [src]="'data:' + collateral.iconContentType + ';base64,' + collateral.icon"
+                style="max-height: 30px"
+                alt="collateral image"
+              />
+            </a>
+            <span *ngIf="collateral.icon">{{ collateral.iconContentType }}, {{ byteSize(collateral.icon) }}</span>
+          </td>
+          <td>
+            <a
+              *ngIf="collateral.content"
+              (click)="openFile(collateral.content, collateral.contentContentType)"
+              jhiTranslate="entity.action.open"
+              >open</a
+            >
+            <span *ngIf="collateral.content">{{ collateral.contentContentType }}, {{ byteSize(collateral.content) }}</span>
+          </td>
+          <td>{{ collateral.version }}</td>
+          <td>
+            <div *ngIf="collateral.workflow">
+              <a [routerLink]="['/workflow', collateral.workflow?.id, 'view']">{{ collateral.workflow?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="collateral.launch">
+              <a [routerLink]="['/launch', collateral.launch?.id, 'view']">{{ collateral.launch?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/collateral', collateral.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/collateral', collateral.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(collateral)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

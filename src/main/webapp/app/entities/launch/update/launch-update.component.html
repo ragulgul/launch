@@ -1,0 +1,143 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-launch-heading" data-cy="LaunchCreateUpdateHeading" jhiTranslate="launchApp.launch.home.createOrEditLabel">
+        Create or edit a Launch
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.launch.name" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.launch.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.launch.start" for="field_start">Start</label>
+          <div class="d-flex">
+            <input
+              id="field_start"
+              data-cy="start"
+              type="datetime-local"
+              class="form-control"
+              name="start"
+              formControlName="start"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.launch.version" for="field_version">Version</label>
+          <input type="number" class="form-control" name="version" id="field_version" data-cy="version" formControlName="version" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.launch.icon" for="field_icon">Icon</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('iconContentType')!.value + ';base64,' + editForm.get('icon')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('icon')!.value"
+              alt="launch image"
+            />
+            <div *ngIf="editForm.get('icon')!.value" class="form-text text-danger clearfix">
+              <span class="pull-left">{{ editForm.get('iconContentType')!.value }}, {{ byteSize(editForm.get('icon')!.value) }}</span>
+              <button
+                type="button"
+                (click)="clearInputImage('icon', 'iconContentType', 'file_icon')"
+                class="btn btn-secondary btn-xs pull-right"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_icon"
+              data-cy="icon"
+              (change)="setFileData($event, 'icon', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="icon" id="field_icon" data-cy="icon" formControlName="icon" />
+          <input type="hidden" class="form-control" name="iconContentType" id="field_iconContentType" formControlName="iconContentType" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.launch.workflow" for="field_workflow">Workflow</label>
+          <select class="form-control" id="field_workflow" data-cy="workflow" name="workflow" formControlName="workflow">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="workflowOption.id === editForm.get('workflow')!.value?.id ? editForm.get('workflow')!.value : workflowOption"
+              *ngFor="let workflowOption of workflowsCollection; trackBy: trackWorkflowById"
+            >
+              {{ workflowOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.launch.product" for="field_product">Product</label>
+          <select class="form-control" id="field_product" data-cy="product" name="product" formControlName="product">
+            <option *ngIf="!editForm.get('product')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="productOption.id === editForm.get('product')!.value?.id ? editForm.get('product')!.value : productOption"
+              *ngFor="let productOption of productsSharedCollection; trackBy: trackProductById"
+            >
+              {{ productOption.id }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['product'])!.invalid && (editForm.get(['product'])!.dirty || editForm.get(['product'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['product'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

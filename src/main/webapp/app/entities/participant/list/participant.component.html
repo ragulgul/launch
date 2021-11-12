@@ -1,0 +1,92 @@
+<div>
+  <h2 id="page-heading" data-cy="ParticipantHeading">
+    <span jhiTranslate="launchApp.participant.home.title">Participants</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="launchApp.participant.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-participant"
+        [routerLink]="['/participant/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="launchApp.participant.home.createLabel"> Create a new Participant </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="participants?.length === 0">
+    <span jhiTranslate="launchApp.participant.home.notFound">No participants found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="participants && participants.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.participant.firstName">First Name</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.participant.lastName">Last Name</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.participant.displayName">Display Name</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.participant.user">User</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.participant.team">Team</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let participant of participants; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/participant', participant.id, 'view']">{{ participant.id }}</a>
+          </td>
+          <td>{{ participant.firstName }}</td>
+          <td>{{ participant.lastName }}</td>
+          <td>{{ participant.displayName }}</td>
+          <td>
+            {{ participant.user?.id }}
+          </td>
+          <td>
+            <div *ngIf="participant.team">
+              <a [routerLink]="['/team', participant.team?.id, 'view']">{{ participant.team?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/participant', participant.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/participant', participant.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(participant)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

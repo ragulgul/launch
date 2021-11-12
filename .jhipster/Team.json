@@ -1,0 +1,32 @@
+{
+  "name": "Team",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "participant",
+      "otherEntityRelationshipName": "team",
+      "relationshipName": "members"
+    }
+  ],
+  "entityTableName": "team",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["launchApp"],
+  "changelogDate": "20211112161446"
+}

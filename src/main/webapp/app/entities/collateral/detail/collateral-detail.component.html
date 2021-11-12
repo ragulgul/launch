@@ -1,0 +1,72 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="collateral">
+      <h2 data-cy="collateralDetailsHeading"><span jhiTranslate="launchApp.collateral.detail.title">Collateral</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ collateral.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.collateral.name">Name</span></dt>
+        <dd>
+          <span>{{ collateral.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.collateral.description">Description</span></dt>
+        <dd>
+          <span>{{ collateral.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.collateral.icon">Icon</span></dt>
+        <dd>
+          <div *ngIf="collateral.icon">
+            <a (click)="openFile(collateral.icon, collateral.iconContentType)">
+              <img
+                [src]="'data:' + collateral.iconContentType + ';base64,' + collateral.icon"
+                style="max-width: 100%"
+                alt="collateral image"
+              />
+            </a>
+            {{ collateral.iconContentType }}, {{ byteSize(collateral.icon) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="launchApp.collateral.content">Content</span></dt>
+        <dd>
+          <div *ngIf="collateral.content">
+            <a (click)="openFile(collateral.content, collateral.contentContentType)" jhiTranslate="entity.action.open">open</a>
+            {{ collateral.contentContentType }}, {{ byteSize(collateral.content) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="launchApp.collateral.version">Version</span></dt>
+        <dd>
+          <span>{{ collateral.version }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.collateral.workflow">Workflow</span></dt>
+        <dd>
+          <div *ngIf="collateral.workflow">
+            <a [routerLink]="['/workflow', collateral.workflow?.id, 'view']">{{ collateral.workflow?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="launchApp.collateral.launch">Launch</span></dt>
+        <dd>
+          <div *ngIf="collateral.launch">
+            <a [routerLink]="['/launch', collateral.launch?.id, 'view']">{{ collateral.launch?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/collateral', collateral.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

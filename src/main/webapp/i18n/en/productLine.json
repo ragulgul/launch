@@ -1,0 +1,27 @@
+{
+  "launchApp": {
+    "productLine": {
+      "home": {
+        "title": "Product Lines",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Product Line",
+        "createOrEditLabel": "Create or edit a Product Line",
+        "notFound": "No Product Lines found"
+      },
+      "created": "A new Product Line is created with identifier {{ param }}",
+      "updated": "A Product Line is updated with identifier {{ param }}",
+      "deleted": "A Product Line is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Product Line {{ id }}?"
+      },
+      "detail": {
+        "title": "Product Line"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "icon": "Icon",
+      "products": "Products"
+    }
+  }
+}

@@ -1,0 +1,93 @@
+<div>
+  <h2 id="page-heading" data-cy="LaunchHeading">
+    <span jhiTranslate="launchApp.launch.home.title">Launches</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="launchApp.launch.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-launch"
+        [routerLink]="['/launch/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="launchApp.launch.home.createLabel"> Create a new Launch </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="launches?.length === 0">
+    <span jhiTranslate="launchApp.launch.home.notFound">No launches found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="launches && launches.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.launch.name">Name</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.launch.description">Description</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.launch.start">Start</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.launch.version">Version</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.launch.icon">Icon</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.launch.workflow">Workflow</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.launch.product">Product</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let launch of launches; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/launch', launch.id, 'view']">{{ launch.id }}</a>
+          </td>
+          <td>{{ launch.name }}</td>
+          <td>{{ launch.description }}</td>
+          <td>{{ launch.start | formatMediumDatetime }}</td>
+          <td>{{ launch.version }}</td>
+          <td>
+            <a *ngIf="launch.icon" (click)="openFile(launch.icon, launch.iconContentType)">
+              <img [src]="'data:' + launch.iconContentType + ';base64,' + launch.icon" style="max-height: 30px" alt="launch image" />
+            </a>
+            <span *ngIf="launch.icon">{{ launch.iconContentType }}, {{ byteSize(launch.icon) }}</span>
+          </td>
+          <td>
+            <div *ngIf="launch.workflow">
+              <a [routerLink]="['/workflow', launch.workflow?.id, 'view']">{{ launch.workflow?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="launch.product">
+              <a [routerLink]="['/product', launch.product?.id, 'view']">{{ launch.product?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/launch', launch.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/launch', launch.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(launch)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

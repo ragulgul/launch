@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="launch">
+      <h2 data-cy="launchDetailsHeading"><span jhiTranslate="launchApp.launch.detail.title">Launch</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ launch.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.launch.name">Name</span></dt>
+        <dd>
+          <span>{{ launch.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.launch.description">Description</span></dt>
+        <dd>
+          <span>{{ launch.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.launch.start">Start</span></dt>
+        <dd>
+          <span>{{ launch.start | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.launch.version">Version</span></dt>
+        <dd>
+          <span>{{ launch.version }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.launch.icon">Icon</span></dt>
+        <dd>
+          <div *ngIf="launch.icon">
+            <a (click)="openFile(launch.icon, launch.iconContentType)">
+              <img [src]="'data:' + launch.iconContentType + ';base64,' + launch.icon" style="max-width: 100%" alt="launch image" />
+            </a>
+            {{ launch.iconContentType }}, {{ byteSize(launch.icon) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="launchApp.launch.workflow">Workflow</span></dt>
+        <dd>
+          <div *ngIf="launch.workflow">
+            <a [routerLink]="['/workflow', launch.workflow?.id, 'view']">{{ launch.workflow?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="launchApp.launch.product">Product</span></dt>
+        <dd>
+          <div *ngIf="launch.product">
+            <a [routerLink]="['/product', launch.product?.id, 'view']">{{ launch.product?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/launch', launch.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

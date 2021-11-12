@@ -1,0 +1,91 @@
+<div>
+  <h2 id="page-heading" data-cy="ProductLineHeading">
+    <span jhiTranslate="launchApp.productLine.home.title">Product Lines</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="launchApp.productLine.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-product-line"
+        [routerLink]="['/product-line/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="launchApp.productLine.home.createLabel"> Create a new Product Line </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="productLines?.length === 0">
+    <span jhiTranslate="launchApp.productLine.home.notFound">No productLines found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="productLines && productLines.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.productLine.name">Name</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.productLine.description">Description</span></th>
+          <th scope="col"><span jhiTranslate="launchApp.productLine.icon">Icon</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let productLine of productLines; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/product-line', productLine.id, 'view']">{{ productLine.id }}</a>
+          </td>
+          <td>{{ productLine.name }}</td>
+          <td>{{ productLine.description }}</td>
+          <td>
+            <a *ngIf="productLine.icon" (click)="openFile(productLine.icon, productLine.iconContentType)">
+              <img
+                [src]="'data:' + productLine.iconContentType + ';base64,' + productLine.icon"
+                style="max-height: 30px"
+                alt="productLine image"
+              />
+            </a>
+            <span *ngIf="productLine.icon">{{ productLine.iconContentType }}, {{ byteSize(productLine.icon) }}</span>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/product-line', productLine.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/product-line', productLine.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(productLine)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="product">
+      <h2 data-cy="productDetailsHeading"><span jhiTranslate="launchApp.product.detail.title">Product</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ product.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.product.name">Name</span></dt>
+        <dd>
+          <span>{{ product.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.product.description">Description</span></dt>
+        <dd>
+          <span>{{ product.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.product.icon">Icon</span></dt>
+        <dd>
+          <div *ngIf="product.icon">
+            <a (click)="openFile(product.icon, product.iconContentType)">
+              <img [src]="'data:' + product.iconContentType + ';base64,' + product.icon" style="max-width: 100%" alt="product image" />
+            </a>
+            {{ product.iconContentType }}, {{ byteSize(product.icon) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="launchApp.product.line">Line</span></dt>
+        <dd>
+          <div *ngIf="product.line">
+            <a [routerLink]="['/product-line', product.line?.id, 'view']">{{ product.line?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/product', product.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+
+application {
+  config {
+    baseName launchApp,
+    applicationType monolith,
+    packageName com.sidgul.launch,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    clientFramework angular
+  }
+  entities *
+}
+
+entity ProductLine {
+	name String required,
+    description String,
+    icon ImageBlob
+}
+
+entity Product {
+	name String required,
+    description String,
+    icon ImageBlob
+}
+
+entity Launch {
+	name String required,
+    description String,
+    start ZonedDateTime,
+    version Integer,
+    icon ImageBlob
+}
+
+entity Collateral {
+	name String required,
+    description String,
+    icon ImageBlob,
+    content AnyBlob,
+    version Integer
+}
+
+entity Workflow {
+	name String required,
+    description String
+}
+
+entity Task {
+	name String required,
+    description String
+}
+
+entity Team {
+	name String required,
+    description String
+}
+
+entity Participant {
+	firstName String,
+    lastName String,
+    displayName String
+}
+
+relationship OneToMany {
+  ProductLine{products} to Product{line required}
+}
+
+relationship ManyToOne {
+	Launch{product required} to Product
+}
+
+relationship OneToMany {
+  Launch{collaterals} to Collateral{launch required}
+}
+
+relationship OneToOne {
+	Launch{workflow} to Workflow
+}
+
+relationship OneToOne {
+	Collateral{workflow} to Workflow
+}
+
+relationship OneToMany {
+	Workflow{tasks} to Task{workflow required}
+}
+
+relationship OneToOne {
+	Task{assignedTo} to Team
+}
+
+relationship OneToMany {
+	Team{members} to Participant
+}
+
+relationship OneToOne {
+	Participant{user} to User
+}
