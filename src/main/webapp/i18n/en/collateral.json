@@ -1,0 +1,30 @@
+{
+  "launchApp": {
+    "collateral": {
+      "home": {
+        "title": "Collaterals",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Collateral",
+        "createOrEditLabel": "Create or edit a Collateral",
+        "notFound": "No Collaterals found"
+      },
+      "created": "A new Collateral is created with identifier {{ param }}",
+      "updated": "A Collateral is updated with identifier {{ param }}",
+      "deleted": "A Collateral is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Collateral {{ id }}?"
+      },
+      "detail": {
+        "title": "Collateral"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "icon": "Icon",
+      "content": "Content",
+      "version": "Version",
+      "workflow": "Workflow",
+      "launch": "Launch"
+    }
+  }
+}

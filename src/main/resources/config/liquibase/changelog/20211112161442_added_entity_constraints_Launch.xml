@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+    <!--
+        Added the constraints for entity Launch.
+    -->
+    <changeSet id="20211112161442-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="workflow_id"
+                                 baseTableName="launch"
+                                 constraintName="fk_launch__workflow_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="workflow"/>
+
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="launch"
+                                 constraintName="fk_launch__product_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+    </changeSet>
+</databaseChangeLog>

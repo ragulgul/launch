@@ -1,0 +1,48 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="task">
+      <h2 data-cy="taskDetailsHeading"><span jhiTranslate="launchApp.task.detail.title">Task</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ task.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.task.name">Name</span></dt>
+        <dd>
+          <span>{{ task.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.task.description">Description</span></dt>
+        <dd>
+          <span>{{ task.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="launchApp.task.assignedTo">Assigned To</span></dt>
+        <dd>
+          <div *ngIf="task.assignedTo">
+            <a [routerLink]="['/team', task.assignedTo?.id, 'view']">{{ task.assignedTo?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="launchApp.task.workflow">Workflow</span></dt>
+        <dd>
+          <div *ngIf="task.workflow">
+            <a [routerLink]="['/workflow', task.workflow?.id, 'view']">{{ task.workflow?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/task', task.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

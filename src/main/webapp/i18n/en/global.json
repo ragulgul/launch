@@ -7,6 +7,14 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
+        "productLine": "Product Line",
+        "product": "Product",
+        "launch": "Launch",
+        "collateral": "Collateral",
+        "workflow": "Workflow",
+        "task": "Task",
+        "team": "Team",
+        "participant": "Participant",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

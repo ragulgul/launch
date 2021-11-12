@@ -48,6 +48,18 @@ public class CacheConfiguration {
             createCache(cm, com.sidgul.launch.domain.User.class.getName());
             createCache(cm, com.sidgul.launch.domain.Authority.class.getName());
             createCache(cm, com.sidgul.launch.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.sidgul.launch.domain.ProductLine.class.getName());
+            createCache(cm, com.sidgul.launch.domain.ProductLine.class.getName() + ".products");
+            createCache(cm, com.sidgul.launch.domain.Product.class.getName());
+            createCache(cm, com.sidgul.launch.domain.Launch.class.getName());
+            createCache(cm, com.sidgul.launch.domain.Launch.class.getName() + ".collaterals");
+            createCache(cm, com.sidgul.launch.domain.Collateral.class.getName());
+            createCache(cm, com.sidgul.launch.domain.Workflow.class.getName());
+            createCache(cm, com.sidgul.launch.domain.Workflow.class.getName() + ".tasks");
+            createCache(cm, com.sidgul.launch.domain.Task.class.getName());
+            createCache(cm, com.sidgul.launch.domain.Team.class.getName());
+            createCache(cm, com.sidgul.launch.domain.Team.class.getName() + ".members");
+            createCache(cm, com.sidgul.launch.domain.Participant.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -1,0 +1,40 @@
+{
+  "name": "Task",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "team",
+      "otherEntityRelationshipName": "task",
+      "relationshipName": "assignedTo",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "workflow",
+      "otherEntityRelationshipName": "tasks",
+      "relationshipValidateRules": "required",
+      "relationshipName": "workflow"
+    }
+  ],
+  "entityTableName": "task",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["launchApp"],
+  "changelogDate": "20211112161445"
+}

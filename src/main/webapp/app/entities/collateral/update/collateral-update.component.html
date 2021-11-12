@@ -1,0 +1,161 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-collateral-heading" data-cy="CollateralCreateUpdateHeading" jhiTranslate="launchApp.collateral.home.createOrEditLabel">
+        Create or edit a Collateral
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.collateral.name" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.collateral.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.collateral.icon" for="field_icon">Icon</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('iconContentType')!.value + ';base64,' + editForm.get('icon')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('icon')!.value"
+              alt="collateral image"
+            />
+            <div *ngIf="editForm.get('icon')!.value" class="form-text text-danger clearfix">
+              <span class="pull-left">{{ editForm.get('iconContentType')!.value }}, {{ byteSize(editForm.get('icon')!.value) }}</span>
+              <button
+                type="button"
+                (click)="clearInputImage('icon', 'iconContentType', 'file_icon')"
+                class="btn btn-secondary btn-xs pull-right"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_icon"
+              data-cy="icon"
+              (change)="setFileData($event, 'icon', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="icon" id="field_icon" data-cy="icon" formControlName="icon" />
+          <input type="hidden" class="form-control" name="iconContentType" id="field_iconContentType" formControlName="iconContentType" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.collateral.content" for="field_content">Content</label>
+          <div>
+            <div *ngIf="editForm.get('content')!.value" class="form-text text-danger clearfix">
+              <a
+                class="pull-left"
+                (click)="openFile(editForm.get('content')!.value, editForm.get('contentContentType')!.value)"
+                jhiTranslate="entity.action.open"
+                >open</a
+              ><br />
+              <span class="pull-left">{{ editForm.get('contentContentType')!.value }}, {{ byteSize(editForm.get('content')!.value) }}</span>
+              <button
+                type="button"
+                (click)="editForm.patchValue({ content: null }); editForm.patchValue({ contentContentType: null })"
+                class="btn btn-secondary btn-xs pull-right"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_content"
+              data-cy="content"
+              (change)="setFileData($event, 'content', false)"
+              jhiTranslate="entity.action.addblob"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="content" id="field_content" data-cy="content" formControlName="content" />
+          <input
+            type="hidden"
+            class="form-control"
+            name="contentContentType"
+            id="field_contentContentType"
+            formControlName="contentContentType"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.collateral.version" for="field_version">Version</label>
+          <input type="number" class="form-control" name="version" id="field_version" data-cy="version" formControlName="version" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.collateral.workflow" for="field_workflow">Workflow</label>
+          <select class="form-control" id="field_workflow" data-cy="workflow" name="workflow" formControlName="workflow">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="workflowOption.id === editForm.get('workflow')!.value?.id ? editForm.get('workflow')!.value : workflowOption"
+              *ngFor="let workflowOption of workflowsCollection; trackBy: trackWorkflowById"
+            >
+              {{ workflowOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="launchApp.collateral.launch" for="field_launch">Launch</label>
+          <select class="form-control" id="field_launch" data-cy="launch" name="launch" formControlName="launch">
+            <option *ngIf="!editForm.get('launch')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="launchOption.id === editForm.get('launch')!.value?.id ? editForm.get('launch')!.value : launchOption"
+              *ngFor="let launchOption of launchesSharedCollection; trackBy: trackLaunchById"
+            >
+              {{ launchOption.id }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['launch'])!.invalid && (editForm.get(['launch'])!.dirty || editForm.get(['launch'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['launch'])?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

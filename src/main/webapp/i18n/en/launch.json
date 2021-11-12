@@ -1,0 +1,31 @@
+{
+  "launchApp": {
+    "launch": {
+      "home": {
+        "title": "Launches",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Launch",
+        "createOrEditLabel": "Create or edit a Launch",
+        "notFound": "No Launches found"
+      },
+      "created": "A new Launch is created with identifier {{ param }}",
+      "updated": "A Launch is updated with identifier {{ param }}",
+      "deleted": "A Launch is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Launch {{ id }}?"
+      },
+      "detail": {
+        "title": "Launch"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "start": "Start",
+      "version": "Version",
+      "icon": "Icon",
+      "workflow": "Workflow",
+      "collaterals": "Collaterals",
+      "product": "Product"
+    }
+  }
+}
