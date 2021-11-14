@@ -6,7 +6,7 @@
       "home": "Home",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
-        "main": "Entities",
+        "main": "Let's launch!",
         "productLine": "Product Line",
         "product": "Product",
         "launch": "Launch",
@@ -27,7 +27,7 @@
         "register": "Register"
       },
       "admin": {
-        "main": "Administration",
+        "main": "Admin",
         "userManagement": "User management",
         "tracker": "User tracker",
         "metrics": "Metrics",
