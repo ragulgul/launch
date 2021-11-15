@@ -1,0 +1,27 @@
+.footer {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.footer-copyright {
+}
+
+.footer .navbar {
+  align-content: flex-start;
+  border: none;
+}
+
+.footer .navbar li {
+  padding-left: 0;
+  padding-right: 0.8rem;
+}
+
+.footer .navbar li a {
+  color: #6c757d;
+  font-size: 0.8rem;
+  font-weight: normal;
+}
+
+@media (max-width: 600px) {
+}
