@@ -5,13 +5,16 @@
 Navbar
 ========================================================================== */
 
+$header-text-color: #6e618e;
+
 .navbar-version {
   font-size: 0.65em;
-  color: $navbar-light-color;
+  color: $header-text-color;
 }
 
 .navbar-title {
   text-transform: none;
+  /*color: $header-text-color;*/
 }
 
 .profile-image {
@@ -21,10 +24,12 @@ Navbar
 
 .navbar {
   padding: 0.2rem 1rem;
+  color: $header-text-color;
 
   ul.navbar-nav {
     .nav-item {
       margin-left: 0.5em;
+      color: $header-text-color;
     }
   }
 
@@ -43,5 +48,7 @@ Logo styles
   vertical-align: middle;
   background: url('../../../content/images/logo-launch.svg') no-repeat center center;
   background-size: contain;
-  fill: #17a2b8;
+  /*fill: #17a2b8;*/
+  fill: $header-text-color;
+  color: $header-text-color;
 }
